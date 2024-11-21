@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.css">
@@ -17,23 +17,21 @@
       line-height: 1.6;
     }
     .CodeMirror {
-      height: 20vh;
+      border: 1px solid #ddd;
+      width: 100%; /* Make the editor expand to fit the container */
+      min-height: 100px; /* Minimum height to show initial lines */
+      height: auto; /* Let it grow dynamically */
     }
     .editor-container {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-width: 600px;
+      max-width: 100%; /* Ensure full responsiveness */
       margin: 0 auto;
-    }
-    /* Adjust editor height */
-    #editor {
-      height: 120px;  /* Smaller default height */
-      border: 1px solid #fff;
     }
     #console {
       background: #fff;
-      border: 1px solid #fff;
+      border: 1px solid #ddd;
       padding: 10px;
       min-height: 50px;
       overflow-y: auto;
@@ -68,9 +66,9 @@
       mode: "javascript",
       lineNumbers: true,
       theme: "default",
-      lineWrapping: true,  // Ensures long lines wrap instead of expanding horizontally
+      lineWrapping: true,
       extraKeys: {"Ctrl-Space": "autocomplete"},
-      height: "auto",  // Auto height, but we're setting a fixed height through CSS
+      viewportMargin: Infinity,  // Make sure it dynamically adjusts as content increases
     });
 
     // Function to run the code and display console output
