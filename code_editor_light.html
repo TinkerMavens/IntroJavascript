@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.css">
+  <title>Minimal Code Editor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #editor {
+      height: 200px;
+      border: 1px solid #ddd;
+    }
+    #console {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      min-height: 50px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      align-self: flex-start;
+    }
+    button:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="editor-container">
+    <textarea id="editor">// Write your JavaScript code here</textarea>
+    <button onclick="runCode()">Run</button>
+    <div id="console" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // Initialize CodeMirror Editor
+    const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+      mode: "javascript",
+      lineNumbers: true,
+      theme: "default",
+    });
+
+    // Function to run the code and display console output
+    function runCode() {
+      const code = editor.getValue();
+      const consoleDiv = document.getElementById("console");
+      consoleDiv.innerHTML = ""; // Clear previous output
+
+      const customConsole = {
+        log: (...args) => {
+          const message = document.createElement("div");
+          message.textContent = args.join(" ");
+          consoleDiv.appendChild(message);
+        }
+      };
+
+      try {
+        // Execute user code with a custom console
+        const func = new Function("console", code);
+        func(customConsole);
+      } catch (error) {
+        const errorDiv = document.createElement("div");
+        errorDiv.style.color = "red";
+        errorDiv.textContent = error.message;
+        consoleDiv.appendChild(errorDiv);
+      }
+    }
+  </script>
+</body>
+</html>
